@@ -22,6 +22,7 @@ namespace AutoRest.CSharp.AutoRest.Plugins
             var serializeWriter = new SerializationWriter();
             var resourceGroupExtensionsWriter = new ResourceGroupExtensionsWriter();
             var subscriptionExtensionsWriter = new SubscriptionExtensionsWriter();
+            var tenantExtensionsWriter = new TenantExtensionsWriter();
             var mgmtLongRunningOperationWriter = new MgmtLongRunningOperationWriter();
 
             foreach (var model in context.Library.Models)
@@ -124,6 +125,10 @@ namespace AutoRest.CSharp.AutoRest.Plugins
                 managementGroupExtensionsWriter.WriteExtension(managementGroupExtensionsCodeWriter, context);
                 project.AddGeneratedFile($"Extensions/{ResourceTypeBuilder.TypeToExtensionName[ResourceTypeBuilder.ManagementGroups]}.cs", managementGroupExtensionsCodeWriter.ToString());
             }
+
+            var tenantExtensionsCodeWriter = new CodeWriter();
+            tenantExtensionsWriter.WriteExtension(tenantExtensionsCodeWriter, context);
+            project.AddGeneratedFile($"Extensions/{ResourceTypeBuilder.TypeToExtensionName[ResourceTypeBuilder.Tenant]}.cs", tenantExtensionsCodeWriter.ToString());
         }
     }
 }
