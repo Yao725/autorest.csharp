@@ -12,25 +12,25 @@ using TenantExtensions;
 namespace TenantExtensions.Models
 {
     /// <summary> List of policy definitions. </summary>
-    internal partial class PolicyDefinitionListResult
+    internal partial class AppleDefinitionListResult
     {
-        /// <summary> Initializes a new instance of PolicyDefinitionListResult. </summary>
-        internal PolicyDefinitionListResult()
+        /// <summary> Initializes a new instance of AppleDefinitionListResult. </summary>
+        internal AppleDefinitionListResult()
         {
-            Value = new ChangeTrackingList<PolicyDefinitionData>();
+            Value = new ChangeTrackingList<AppleData>();
         }
 
-        /// <summary> Initializes a new instance of PolicyDefinitionListResult. </summary>
+        /// <summary> Initializes a new instance of AppleDefinitionListResult. </summary>
         /// <param name="value"> An array of policy definitions. </param>
         /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        internal PolicyDefinitionListResult(IReadOnlyList<PolicyDefinitionData> value, string nextLink)
+        internal AppleDefinitionListResult(IReadOnlyList<AppleData> value, string nextLink)
         {
             Value = value;
             NextLink = nextLink;
         }
 
         /// <summary> An array of policy definitions. </summary>
-        public IReadOnlyList<PolicyDefinitionData> Value { get; }
+        public IReadOnlyList<AppleData> Value { get; }
         /// <summary> The URL to use for getting the next set of results. </summary>
         public string NextLink { get; }
     }

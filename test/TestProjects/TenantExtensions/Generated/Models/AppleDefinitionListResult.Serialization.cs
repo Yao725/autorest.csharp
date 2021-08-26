@@ -12,11 +12,11 @@ using TenantExtensions;
 
 namespace TenantExtensions.Models
 {
-    internal partial class PolicyDefinitionListResult
+    internal partial class AppleDefinitionListResult
     {
-        internal static PolicyDefinitionListResult DeserializePolicyDefinitionListResult(JsonElement element)
+        internal static AppleDefinitionListResult DeserializeAppleDefinitionListResult(JsonElement element)
         {
-            Optional<IReadOnlyList<PolicyDefinitionData>> value = default;
+            Optional<IReadOnlyList<AppleData>> value = default;
             Optional<string> nextLink = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -27,10 +27,10 @@ namespace TenantExtensions.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<PolicyDefinitionData> array = new List<PolicyDefinitionData>();
+                    List<AppleData> array = new List<AppleData>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(PolicyDefinitionData.DeserializePolicyDefinitionData(item));
+                        array.Add(AppleData.DeserializeAppleData(item));
                     }
                     value = array;
                     continue;
@@ -41,7 +41,7 @@ namespace TenantExtensions.Models
                     continue;
                 }
             }
-            return new PolicyDefinitionListResult(Optional.ToList(value), nextLink.Value);
+            return new AppleDefinitionListResult(Optional.ToList(value), nextLink.Value);
         }
     }
 }

@@ -291,7 +291,7 @@ namespace TenantExtensions
         /// <param name="filter"> The filter to apply on the operation. Valid values for $filter are: &apos;atExactScope()&apos;, &apos;policyType -eq {value}&apos; or &apos;category eq &apos;{value}&apos;&apos;. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter=&apos;policyType -eq {value}&apos; is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter=&apos;category -eq {value}&apos; is provided, the returned list only includes all policy definitions whose category match the {value}. </param>
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<PolicyDefinitionListResult>> GetAllAsync(string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public async Task<Response<AppleDefinitionListResult>> GetAllAsync(string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllRequest(filter, top);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -299,9 +299,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -313,7 +313,7 @@ namespace TenantExtensions
         /// <param name="filter"> The filter to apply on the operation. Valid values for $filter are: &apos;atExactScope()&apos;, &apos;policyType -eq {value}&apos; or &apos;category eq &apos;{value}&apos;&apos;. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter=&apos;policyType -eq {value}&apos; is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter=&apos;category -eq {value}&apos; is provided, the returned list only includes all policy definitions whose category match the {value}. </param>
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<PolicyDefinitionListResult> GetAll(string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public Response<AppleDefinitionListResult> GetAll(string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllRequest(filter, top);
             _pipeline.Send(message, cancellationToken);
@@ -321,9 +321,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -357,7 +357,7 @@ namespace TenantExtensions
         /// <param name="filter"> The filter to apply on the operation. Valid values for $filter are: &apos;atExactScope()&apos;, &apos;policyType -eq {value}&apos; or &apos;category eq &apos;{value}&apos;&apos;. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter=&apos;policyType -eq {value}&apos; is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter=&apos;category -eq {value}&apos; is provided, the returned list only includes all policy definitions whose category match the {value}. </param>
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<PolicyDefinitionListResult>> GetBuiltInAsync(string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public async Task<Response<AppleDefinitionListResult>> GetBuiltInAsync(string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetBuiltInRequest(filter, top);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -365,9 +365,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -379,7 +379,7 @@ namespace TenantExtensions
         /// <param name="filter"> The filter to apply on the operation. Valid values for $filter are: &apos;atExactScope()&apos;, &apos;policyType -eq {value}&apos; or &apos;category eq &apos;{value}&apos;&apos;. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter=&apos;policyType -eq {value}&apos; is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter=&apos;category -eq {value}&apos; is provided, the returned list only includes all policy definitions whose category match the {value}. </param>
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<PolicyDefinitionListResult> GetBuiltIn(string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public Response<AppleDefinitionListResult> GetBuiltIn(string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetBuiltInRequest(filter, top);
             _pipeline.Send(message, cancellationToken);
@@ -387,9 +387,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -416,7 +416,7 @@ namespace TenantExtensions
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<Response<PolicyDefinitionListResult>> GetAllNextPageAsync(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public async Task<Response<AppleDefinitionListResult>> GetAllNextPageAsync(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
@@ -429,9 +429,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -445,7 +445,7 @@ namespace TenantExtensions
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public Response<PolicyDefinitionListResult> GetAllNextPage(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public Response<AppleDefinitionListResult> GetAllNextPage(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
@@ -458,9 +458,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -487,7 +487,7 @@ namespace TenantExtensions
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<Response<PolicyDefinitionListResult>> GetBuiltInNextPageAsync(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public async Task<Response<AppleDefinitionListResult>> GetBuiltInNextPageAsync(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
@@ -500,9 +500,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -516,7 +516,7 @@ namespace TenantExtensions
         /// <param name="top"> Maximum number of records to return. When the $top filter is not provided, it will return 500 records. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public Response<PolicyDefinitionListResult> GetBuiltInNextPage(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public Response<AppleDefinitionListResult> GetBuiltInNextPage(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
@@ -529,9 +529,9 @@ namespace TenantExtensions
             {
                 case 200:
                     {
-                        PolicyDefinitionListResult value = default;
+                        AppleDefinitionListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = PolicyDefinitionListResult.DeserializePolicyDefinitionListResult(document.RootElement);
+                        value = AppleDefinitionListResult.DeserializeAppleDefinitionListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

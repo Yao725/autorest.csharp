@@ -121,5 +121,15 @@ namespace TenantExtensions
         }
 
         #endregion
+
+        #region PolicyDefinition
+        /// <summary> Gets an object representing a PolicyDefinitionContainer along with the instance operations that can be performed on it. </summary>
+        /// <param name="tenant"> The <see cref="Tenant" /> instance the method will execute against. </param>
+        /// <returns> Returns a <see cref="PolicyDefinitionContainer" /> object. </returns>
+        public static PolicyDefinitionContainer GetPolicyDefinitions(this Tenant tenant)
+        {
+            return new PolicyDefinitionContainer(tenant);
+        }
+        #endregion
     }
 }
