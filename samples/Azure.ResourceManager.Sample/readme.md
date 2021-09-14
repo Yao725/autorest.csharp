@@ -5,47 +5,58 @@
 ``` yaml
 azure-arm: true
 require: $(this-folder)/../../readme.md
-input-file: $(this-folder)/sample.json
-namespace: Azure.ResourceManager.Sample
-model-namespace: false
-public-clients: false
-head-as-boolean: false
-operation-group-to-resource-type:
-   VirtualMachineExtensionImages: Microsoft.Compute/locations/publishers/vmextension
-   VirtualMachineImages: Microsoft.Compute/locations/publishers/vmimage
-   Usage: Microsoft.Compute/locations/usages
-   VirtualMachineSizes: Microsoft.Compute/locations/vmSizes
-   VirtualMachineScaleSetRollingUpgrades: Microsoft.Compute/virtualMachineScaleSets/rollingUpgrades
-   LogAnalytics: Microsoft.Compute/locations/logAnalytics
-operation-group-to-resource:
-   VirtualMachineExtensionImages: NonResource
-   VirtualMachineImages: NonResource
-   VirtualMachineSizes: NonResource
-   VirtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrade
-   LogAnalytics: NonResource
-operation-group-to-parent:
-   Usage: subscriptions
-   LogAnalytics: subscriptions
-   VirtualMachineExtensionImages: subscriptions
-   VirtualMachineImages: subscriptions
-   VirtualMachineSizes: subscriptions
-   VirtualMachineScaleSetVMExtensions: Microsoft.Compute/virtualMachineScaleSets
-   VirtualMachineScaleSetRollingUpgrades: Microsoft.Compute/virtualMachineScaleSets
-operation-group-is-tuple: VirtualMachineImages
-operation-group-is-extension: VirtualMachineScaleSetVMExtensions
+input-file: 
+  - $(this-folder)/cdn.json
+  - $(this-folder)/afdx.json
+  - $(this-folder)/cdnwebapplicationfirewall.json
+namespace: Azure.ResourceManager.Cdn
+library-name: Cdn
+clear-output-folder: true
+skip-csproj: true
+output-folder: Generated/
 modelerfour:
   lenient-model-deduplication: true
+operation-group-to-resource-type:
+  NameAvailability: Microsoft.Cdn/checkNameAvailability
+  Probe: Microsoft.Cdn/validateProbe
+  ResourceUsage: Microsoft.Cdn/checkResourceUsage
+  EdgeNodes: Microsoft.Cdn/edgenodes
+  AFDProfilesUsage: Microsoft.Cdn/profiles/usages
+  AFDProfilesHostName: Microsoft.Cdn/profiles/checkHostNameAvailability
+  Validate: Microsoft.Cdn/validateSecret
+  LogAnalyticsMetrics: Microsoft.Cdn/profiles/getLogAnalyticsMetrics
+  LogAnalyticsRankings: Microsoft.Cdn/profiles/getLogAnalyticsRankings
+  LogAnalyticsLocations: Microsoft.Cdn/profiles/getLogAnalyticsLocations
+  LogAnalyticsResources: Microsoft.Cdn/profiles/getLogAnalyticsResources
+  WafLogAnalyticsMetrics: Microsoft.Cdn/profiles/getWafLogAnalyticsMetrics
+  WafLogAnalyticsRankings: Microsoft.Cdn/profiles/getWafLogAnalyticsRankings
+  ManagedRuleSets: Microsoft.Cdn/CdnWebApplicationFirewallManagedRuleSets
+operation-group-to-resource:
+  NameAvailability: NonResource
+  Probe: NonResource
+  ResourceUsage: NonResource
+  EdgeNodes: NonResource
+  AFDProfilesUsage: NonResource
+  AFDProfilesHostName: NonResource
+  Validate: NonResource
+  LogAnalyticsMetrics: NonResource
+  LogAnalyticsRankings: NonResource
+  LogAnalyticsLocations: NonResource
+  LogAnalyticsResources: NonResource
+  WafLogAnalyticsMetrics: NonResource
+  WafLogAnalyticsRankings: NonResource
+operation-group-to-parent:
+  NameAvailability: tenant
+  Probe: subscriptions
+  ResourceUsage: subscriptions
+  AFDProfilesUsage: Microsoft.Cdn/profiles
+  AFDProfilesHostName: Microsoft.Cdn/profiles
+  Validate: subscriptions
+  Rules: Microsoft.Cdn/profiles/ruleSets
+operation-groups-to-omit:
+  RuleSets
 directive:
-  - rename-model:
-      from: SshPublicKey
-      to: SshPublicKeyInfo
-  - rename-model:
-      from: LogAnalyticsOperationResult
-      to: LogAnalytics
-  - rename-model:
-      from: SshPublicKeyResource
-      to: SshPublicKey
-  - rename-model:
-      from: RollingUpgradeStatusInfo
-      to: VirtualMachineScaleSetRollingUpgrade
+  - from: swagger-document
+    where: "$.definitions.DeliveryRuleAction.properties.name.x-ms-enum"
+    transform: $.name="DeliveryRuleActionName"
 ```
