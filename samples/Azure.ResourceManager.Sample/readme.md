@@ -45,6 +45,7 @@ operation-group-to-resource:
   LogAnalyticsResources: NonResource
   WafLogAnalyticsMetrics: NonResource
   WafLogAnalyticsRankings: NonResource
+  CustomDomains: CustomDomain
 operation-group-to-parent:
   NameAvailability: tenant
   Probe: subscriptions

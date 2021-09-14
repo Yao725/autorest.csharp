@@ -39,7 +39,8 @@
     "LogAnalyticsLocations": "NonResource",
     "LogAnalyticsResources": "NonResource",
     "WafLogAnalyticsMetrics": "NonResource",
-    "WafLogAnalyticsRankings": "NonResource"
+    "WafLogAnalyticsRankings": "NonResource",
+    "CustomDomains": "CustomDomain"
   },
   "OperationGroupToParent": {
     "NameAvailability": "tenant",
