@@ -62,7 +62,7 @@ namespace Azure.ResourceManager.Sample
             ResourceType type = default;
             Optional<int> order = default;
             Optional<IList<DeliveryRuleCondition>> conditions = default;
-            Optional<IList<DeliveryRuleAction>> actions = default;
+            Optional<IList<DeliveryRuleOperation>> actions = default;
             Optional<MatchProcessingBehavior> matchProcessingBehavior = default;
             Optional<AfdProvisioningState> provisioningState = default;
             Optional<DeploymentStatus> deploymentStatus = default;
@@ -134,10 +134,10 @@ namespace Azure.ResourceManager.Sample
                                 property0.ThrowNonNullablePropertyIsNull();
                                 continue;
                             }
-                            List<DeliveryRuleAction> array = new List<DeliveryRuleAction>();
+                            List<DeliveryRuleOperation> array = new List<DeliveryRuleOperation>();
                             foreach (var item in property0.Value.EnumerateArray())
                             {
-                                array.Add(DeliveryRuleAction.DeserializeDeliveryRuleAction(item));
+                                array.Add(DeliveryRuleOperation.DeserializeDeliveryRuleOperation(item));
                             }
                             actions = array;
                             continue;

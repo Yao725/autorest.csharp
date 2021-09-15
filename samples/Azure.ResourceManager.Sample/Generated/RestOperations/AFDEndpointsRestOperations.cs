@@ -229,7 +229,7 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        internal HttpMessage CreateCreateRequest(string resourceGroupName, string profileName, string endpointName, AFDEndpointData endpoint)
+        internal HttpMessage CreateCreateRequest(string resourceGroupName, string profileName, string endpointName, AFDEndpointData endpointInput)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -249,7 +249,7 @@ namespace Azure.ResourceManager.Sample
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
             var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(endpoint);
+            content.JsonWriter.WriteObjectValue(endpointInput);
             request.Content = content;
             message.SetProperty("UserAgentOverride", _userAgent);
             return message;
@@ -259,10 +259,10 @@ namespace Azure.ResourceManager.Sample
         /// <param name="resourceGroupName"> Name of the Resource group within the Azure subscription. </param>
         /// <param name="profileName"> Name of the CDN profile which is unique within the resource group. </param>
         /// <param name="endpointName"> Name of the endpoint under the profile which is unique globally. </param>
-        /// <param name="endpoint"> Endpoint properties. </param>
+        /// <param name="endpointInput"> Endpoint properties. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="profileName"/>, <paramref name="endpointName"/>, or <paramref name="endpoint"/> is null. </exception>
-        public async Task<Response> CreateAsync(string resourceGroupName, string profileName, string endpointName, AFDEndpointData endpoint, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="profileName"/>, <paramref name="endpointName"/>, or <paramref name="endpointInput"/> is null. </exception>
+        public async Task<Response> CreateAsync(string resourceGroupName, string profileName, string endpointName, AFDEndpointData endpointInput, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -276,12 +276,12 @@ namespace Azure.ResourceManager.Sample
             {
                 throw new ArgumentNullException(nameof(endpointName));
             }
-            if (endpoint == null)
+            if (endpointInput == null)
             {
-                throw new ArgumentNullException(nameof(endpoint));
+                throw new ArgumentNullException(nameof(endpointInput));
             }
 
-            using var message = CreateCreateRequest(resourceGroupName, profileName, endpointName, endpoint);
+            using var message = CreateCreateRequest(resourceGroupName, profileName, endpointName, endpointInput);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -298,10 +298,10 @@ namespace Azure.ResourceManager.Sample
         /// <param name="resourceGroupName"> Name of the Resource group within the Azure subscription. </param>
         /// <param name="profileName"> Name of the CDN profile which is unique within the resource group. </param>
         /// <param name="endpointName"> Name of the endpoint under the profile which is unique globally. </param>
-        /// <param name="endpoint"> Endpoint properties. </param>
+        /// <param name="endpointInput"> Endpoint properties. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="profileName"/>, <paramref name="endpointName"/>, or <paramref name="endpoint"/> is null. </exception>
-        public Response Create(string resourceGroupName, string profileName, string endpointName, AFDEndpointData endpoint, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="profileName"/>, <paramref name="endpointName"/>, or <paramref name="endpointInput"/> is null. </exception>
+        public Response Create(string resourceGroupName, string profileName, string endpointName, AFDEndpointData endpointInput, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -315,12 +315,12 @@ namespace Azure.ResourceManager.Sample
             {
                 throw new ArgumentNullException(nameof(endpointName));
             }
-            if (endpoint == null)
+            if (endpointInput == null)
             {
-                throw new ArgumentNullException(nameof(endpoint));
+                throw new ArgumentNullException(nameof(endpointInput));
             }
 
-            using var message = CreateCreateRequest(resourceGroupName, profileName, endpointName, endpoint);
+            using var message = CreateCreateRequest(resourceGroupName, profileName, endpointName, endpointInput);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

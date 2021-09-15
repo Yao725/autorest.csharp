@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Azure.ResourceManager.Sample.Models
 {
-    public partial class DeliveryRuleAction : IUtf8JsonSerializable
+    public partial class DeliveryRuleOperation : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
@@ -20,7 +20,7 @@ namespace Azure.ResourceManager.Sample.Models
             writer.WriteEndObject();
         }
 
-        internal static DeliveryRuleAction DeserializeDeliveryRuleAction(JsonElement element)
+        internal static DeliveryRuleOperation DeserializeDeliveryRuleOperation(JsonElement element)
         {
             if (element.TryGetProperty("name", out JsonElement discriminator))
             {
@@ -36,16 +36,16 @@ namespace Azure.ResourceManager.Sample.Models
                     case "UrlSigning": return UrlSigningAction.DeserializeUrlSigningAction(element);
                 }
             }
-            DeliveryRuleActionName name = default;
+            DeliveryRuleAction name = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
                 {
-                    name = new DeliveryRuleActionName(property.Value.GetString());
+                    name = new DeliveryRuleAction(property.Value.GetString());
                     continue;
                 }
             }
-            return new DeliveryRuleAction(name);
+            return new DeliveryRuleOperation(name);
         }
     }
 }

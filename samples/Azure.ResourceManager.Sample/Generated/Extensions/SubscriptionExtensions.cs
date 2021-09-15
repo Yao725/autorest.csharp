@@ -147,6 +147,78 @@ namespace Azure.ResourceManager.Sample
         }
         #endregion
 
+        #region NameCheckWithSubscription
+        private static NameCheckWithSubscriptionRestOperations GetNameCheckWithSubscriptionRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
+        {
+            return new NameCheckWithSubscriptionRestOperations(clientDiagnostics, pipeline, clientOptions, subscriptionId, endpoint);
+        }
+
+        /// <summary> Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint. </summary>
+        /// <param name="subscription"> The <see cref="Subscription" /> instance the method will execute against. </param>
+        /// <param name="checkNameAvailabilityInput"> Input to check. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="checkNameAvailabilityInput"/> is null. </exception>
+        public static async Task<Response<CheckNameAvailabilityOutput>> CheckNameCheckWithSubscriptionAvailabilityAsync(this Subscription subscription, CheckNameAvailabilityInput checkNameAvailabilityInput, CancellationToken cancellationToken = default)
+        {
+            if (checkNameAvailabilityInput == null)
+            {
+                throw new ArgumentNullException(nameof(checkNameAvailabilityInput));
+            }
+
+            return await subscription.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                var restOperations = GetNameCheckWithSubscriptionRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.CheckNameCheckWithSubscriptionAvailability");
+                scope.Start();
+                try
+                {
+                    var response = await restOperations.CheckAvailabilityAsync(checkNameAvailabilityInput, cancellationToken).ConfigureAwait(false);
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// <summary> Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint. </summary>
+        /// <param name="subscription"> The <see cref="Subscription" /> instance the method will execute against. </param>
+        /// <param name="checkNameAvailabilityInput"> Input to check. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="checkNameAvailabilityInput"/> is null. </exception>
+        public static Response<CheckNameAvailabilityOutput> CheckNameCheckWithSubscriptionAvailability(this Subscription subscription, CheckNameAvailabilityInput checkNameAvailabilityInput, CancellationToken cancellationToken = default)
+        {
+            if (checkNameAvailabilityInput == null)
+            {
+                throw new ArgumentNullException(nameof(checkNameAvailabilityInput));
+            }
+
+            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                var restOperations = GetNameCheckWithSubscriptionRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.CheckNameCheckWithSubscriptionAvailability");
+                scope.Start();
+                try
+                {
+                    var response = restOperations.CheckAvailability(checkNameAvailabilityInput, cancellationToken);
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        #endregion
+
         #region Probe
         private static ProbeRestOperations GetProbeRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
         {
@@ -317,10 +389,10 @@ namespace Azure.ResourceManager.Sample
 
         #endregion
 
-        #region Validate
-        private static ValidateRestOperations GetValidateRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
+        #region Secret
+        private static SecretRestOperations GetSecretRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
         {
-            return new ValidateRestOperations(clientDiagnostics, pipeline, clientOptions, subscriptionId, endpoint);
+            return new SecretRestOperations(clientDiagnostics, pipeline, clientOptions, subscriptionId, endpoint);
         }
 
         /// <summary> Validate a Secret in the profile. </summary>
@@ -328,7 +400,7 @@ namespace Azure.ResourceManager.Sample
         /// <param name="validateSecretInput"> The Secret source. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="validateSecretInput"/> is null. </exception>
-        public static async Task<Response<ValidateSecretOutput>> SecretValidateAsync(this Subscription subscription, ValidateSecretInput validateSecretInput, CancellationToken cancellationToken = default)
+        public static async Task<Response<ValidateSecretOutput>> ValidateSecretAsync(this Subscription subscription, ValidateSecretInput validateSecretInput, CancellationToken cancellationToken = default)
         {
             if (validateSecretInput == null)
             {
@@ -338,12 +410,12 @@ namespace Azure.ResourceManager.Sample
             return await subscription.UseClientContext(async (baseUri, credential, options, pipeline) =>
             {
                 var clientDiagnostics = new ClientDiagnostics(options);
-                var restOperations = GetValidateRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
-                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.SecretValidate");
+                var restOperations = GetSecretRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.ValidateSecret");
                 scope.Start();
                 try
                 {
-                    var response = await restOperations.SecretAsync(validateSecretInput, cancellationToken).ConfigureAwait(false);
+                    var response = await restOperations.ValidateAsync(validateSecretInput, cancellationToken).ConfigureAwait(false);
                     return response;
                 }
                 catch (Exception e)
@@ -360,7 +432,7 @@ namespace Azure.ResourceManager.Sample
         /// <param name="validateSecretInput"> The Secret source. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="validateSecretInput"/> is null. </exception>
-        public static Response<ValidateSecretOutput> SecretValidate(this Subscription subscription, ValidateSecretInput validateSecretInput, CancellationToken cancellationToken = default)
+        public static Response<ValidateSecretOutput> ValidateSecret(this Subscription subscription, ValidateSecretInput validateSecretInput, CancellationToken cancellationToken = default)
         {
             if (validateSecretInput == null)
             {
@@ -370,12 +442,12 @@ namespace Azure.ResourceManager.Sample
             return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
             {
                 var clientDiagnostics = new ClientDiagnostics(options);
-                var restOperations = GetValidateRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
-                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.SecretValidate");
+                var restOperations = GetSecretRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.ValidateSecret");
                 scope.Start();
                 try
                 {
-                    var response = restOperations.Secret(validateSecretInput, cancellationToken);
+                    var response = restOperations.Validate(validateSecretInput, cancellationToken);
                     return response;
                 }
                 catch (Exception e)

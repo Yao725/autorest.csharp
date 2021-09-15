@@ -18,7 +18,7 @@ using Azure.ResourceManager.Sample.Models;
 
 namespace Azure.ResourceManager.Sample
 {
-    /// <summary> A class representing collection of Rule and their operations over a Parent. </summary>
+    /// <summary> A class representing collection of Rule and their operations over a RuleSet. </summary>
     public partial class RuleContainer : ArmContainer
     {
         private readonly ClientDiagnostics _clientDiagnostics;
@@ -38,7 +38,7 @@ namespace Azure.ResourceManager.Sample
         }
 
         /// <summary> Gets the valid resource type for this object. </summary>
-        protected override ResourceType ValidResourceType => "Microsoft.Cdn/profiles/ruleSets";
+        protected override ResourceType ValidResourceType => RuleSet.ResourceType;
 
         // Container level operations.
 

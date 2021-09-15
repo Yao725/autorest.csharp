@@ -10,7 +10,7 @@ using System;
 namespace Azure.ResourceManager.Sample.Models
 {
     /// <summary> Defines the url signing action for the delivery rule. </summary>
-    public partial class UrlSigningAction : DeliveryRuleAction
+    public partial class UrlSigningAction : DeliveryRuleOperation
     {
         /// <summary> Initializes a new instance of UrlSigningAction. </summary>
         /// <param name="parameters"> Defines the parameters for the action. </param>
@@ -23,13 +23,13 @@ namespace Azure.ResourceManager.Sample.Models
             }
 
             Parameters = parameters;
-            Name = DeliveryRuleActionName.UrlSigning;
+            Name = DeliveryRuleAction.UrlSigning;
         }
 
         /// <summary> Initializes a new instance of UrlSigningAction. </summary>
         /// <param name="name"> The name of the action for the delivery rule. </param>
         /// <param name="parameters"> Defines the parameters for the action. </param>
-        internal UrlSigningAction(DeliveryRuleActionName name, UrlSigningActionParameters parameters) : base(name)
+        internal UrlSigningAction(DeliveryRuleAction name, UrlSigningActionParameters parameters) : base(name)
         {
             Parameters = parameters;
             Name = name;

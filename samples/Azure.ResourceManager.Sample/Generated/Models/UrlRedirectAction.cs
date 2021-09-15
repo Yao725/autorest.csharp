@@ -10,7 +10,7 @@ using System;
 namespace Azure.ResourceManager.Sample.Models
 {
     /// <summary> Defines the url redirect action for the delivery rule. </summary>
-    public partial class UrlRedirectAction : DeliveryRuleAction
+    public partial class UrlRedirectAction : DeliveryRuleOperation
     {
         /// <summary> Initializes a new instance of UrlRedirectAction. </summary>
         /// <param name="parameters"> Defines the parameters for the action. </param>
@@ -23,13 +23,13 @@ namespace Azure.ResourceManager.Sample.Models
             }
 
             Parameters = parameters;
-            Name = DeliveryRuleActionName.UrlRedirect;
+            Name = DeliveryRuleAction.UrlRedirect;
         }
 
         /// <summary> Initializes a new instance of UrlRedirectAction. </summary>
         /// <param name="name"> The name of the action for the delivery rule. </param>
         /// <param name="parameters"> Defines the parameters for the action. </param>
-        internal UrlRedirectAction(DeliveryRuleActionName name, UrlRedirectActionParameters parameters) : base(name)
+        internal UrlRedirectAction(DeliveryRuleAction name, UrlRedirectActionParameters parameters) : base(name)
         {
             Parameters = parameters;
             Name = name;

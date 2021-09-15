@@ -10,7 +10,7 @@ using System;
 namespace Azure.ResourceManager.Sample.Models
 {
     /// <summary> Defines the cache-key query string action for the delivery rule. </summary>
-    public partial class DeliveryRuleCacheKeyQueryStringAction : DeliveryRuleAction
+    public partial class DeliveryRuleCacheKeyQueryStringAction : DeliveryRuleOperation
     {
         /// <summary> Initializes a new instance of DeliveryRuleCacheKeyQueryStringAction. </summary>
         /// <param name="parameters"> Defines the parameters for the action. </param>
@@ -23,13 +23,13 @@ namespace Azure.ResourceManager.Sample.Models
             }
 
             Parameters = parameters;
-            Name = DeliveryRuleActionName.CacheKeyQueryString;
+            Name = DeliveryRuleAction.CacheKeyQueryString;
         }
 
         /// <summary> Initializes a new instance of DeliveryRuleCacheKeyQueryStringAction. </summary>
         /// <param name="name"> The name of the action for the delivery rule. </param>
         /// <param name="parameters"> Defines the parameters for the action. </param>
-        internal DeliveryRuleCacheKeyQueryStringAction(DeliveryRuleActionName name, CacheKeyQueryStringActionParameters parameters) : base(name)
+        internal DeliveryRuleCacheKeyQueryStringAction(DeliveryRuleAction name, CacheKeyQueryStringActionParameters parameters) : base(name)
         {
             Parameters = parameters;
             Name = name;

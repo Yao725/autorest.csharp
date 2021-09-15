@@ -17,47 +17,75 @@ output-folder: Generated/
 modelerfour:
   lenient-model-deduplication: true
 operation-group-to-resource-type:
-  NameAvailability: Microsoft.Cdn/checkNameAvailability
+  NameCheckWithTenant: Microsoft.Cdn/checkNameAvailability
+  NameCheckWithSubscription: Microsoft.Cdn/checkNameAvailability
   Probe: Microsoft.Cdn/validateProbe
   ResourceUsage: Microsoft.Cdn/checkResourceUsage
   EdgeNodes: Microsoft.Cdn/edgenodes
-  AFDProfilesUsage: Microsoft.Cdn/profiles/usages
-  AFDProfilesHostName: Microsoft.Cdn/profiles/checkHostNameAvailability
-  Validate: Microsoft.Cdn/validateSecret
-  LogAnalyticsMetrics: Microsoft.Cdn/profiles/getLogAnalyticsMetrics
-  LogAnalyticsRankings: Microsoft.Cdn/profiles/getLogAnalyticsRankings
-  LogAnalyticsLocations: Microsoft.Cdn/profiles/getLogAnalyticsLocations
-  LogAnalyticsResources: Microsoft.Cdn/profiles/getLogAnalyticsResources
-  WafLogAnalyticsMetrics: Microsoft.Cdn/profiles/getWafLogAnalyticsMetrics
-  WafLogAnalyticsRankings: Microsoft.Cdn/profiles/getWafLogAnalyticsRankings
+  Secret: Microsoft.Cdn/validateSecret
   ManagedRuleSets: Microsoft.Cdn/CdnWebApplicationFirewallManagedRuleSets
 operation-group-to-resource:
-  NameAvailability: NonResource
+  NameCheckWithTenant: NonResource
+  NameCheckWithSubscription: NonResource
   Probe: NonResource
   ResourceUsage: NonResource
   EdgeNodes: NonResource
-  AFDProfilesUsage: NonResource
-  AFDProfilesHostName: NonResource
-  Validate: NonResource
-  LogAnalyticsMetrics: NonResource
-  LogAnalyticsRankings: NonResource
-  LogAnalyticsLocations: NonResource
-  LogAnalyticsResources: NonResource
-  WafLogAnalyticsMetrics: NonResource
-  WafLogAnalyticsRankings: NonResource
+  RuleSets: RuleSet
+  Secret: NonResource
+  ManagedRuleSets: NonResource
   CustomDomains: CustomDomain
 operation-group-to-parent:
-  NameAvailability: tenant
+  NameCheckWithTenant: tenant
+  NameCheckWithSubscription: subscriptions
   Probe: subscriptions
   ResourceUsage: subscriptions
-  AFDProfilesUsage: Microsoft.Cdn/profiles
-  AFDProfilesHostName: Microsoft.Cdn/profiles
-  Validate: subscriptions
-  Rules: Microsoft.Cdn/profiles/ruleSets
-operation-groups-to-omit:
-  RuleSets
+  EdgeNodes: tenant
+  Secret: subscriptions
+  ManagedRuleSets: subscriptions
 directive:
   - from: swagger-document
-    where: "$.definitions.DeliveryRuleAction.properties.name.x-ms-enum"
-    transform: $.name="DeliveryRuleActionName"
+    where: $.definitions.DeliveryRuleAction
+    transform: $['x-ms-client-name'] = 'DeliveryRuleOperation'
+  - from: swagger-document
+    where: $.paths['/providers/Microsoft.Cdn/checkNameAvailability'].post.operationId
+    transform: return 'NameCheckWithTenant_CheckAvailability'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability'].post.operationId
+    transform: return 'NameCheckWithSubscription_CheckAvailability'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe'].post.operationId
+    transform: return 'Probe_Validate'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/usages'].post.operationId
+    transform: return 'Profiles_CheckResourceUsage'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability'].post.operationId
+    transform: return 'Profiles_CheckHostNameAvailability'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsMetrics'].get.operationId
+    transform: return 'Profiles_GetLogAnalyticsMetrics'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsRankings'].get.operationId
+    transform: return 'Profiles_GetLogAnalyticsRankings'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsLocations'].get.operationId
+    transform: return 'Profiles_GetLogAnalyticsLocations'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getLogAnalyticsResources'].get.operationId
+    transform: return 'Profiles_GetLogAnalyticsResources'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getWafLogAnalyticsMetrics'].get.operationId
+    transform: return 'Profiles_GetWafLogAnalyticsMetrics'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getWafLogAnalyticsRankings'].get.operationId
+    transform: return 'Profiles_GetWafLogAnalyticsRankings'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateSecret'].post.operationId
+    transform: return 'Secret_Validate'
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}'].put.parameters[3]
+    transform: $['x-ms-client-name'] = 'endpointInput';
+  - from: swagger-document
+    where: $.paths['/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}'].put.parameters[3]
+    transform: $['x-ms-client-name'] = 'endpointInput';
 ```

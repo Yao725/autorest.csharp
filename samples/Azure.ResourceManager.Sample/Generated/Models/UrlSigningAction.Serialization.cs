@@ -25,7 +25,7 @@ namespace Azure.ResourceManager.Sample.Models
         internal static UrlSigningAction DeserializeUrlSigningAction(JsonElement element)
         {
             UrlSigningActionParameters parameters = default;
-            DeliveryRuleActionName name = default;
+            DeliveryRuleAction name = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("parameters"))
@@ -35,7 +35,7 @@ namespace Azure.ResourceManager.Sample.Models
                 }
                 if (property.NameEquals("name"))
                 {
-                    name = new DeliveryRuleActionName(property.Value.GetString());
+                    name = new DeliveryRuleAction(property.Value.GetString());
                     continue;
                 }
             }

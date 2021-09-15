@@ -10,7 +10,7 @@ using System;
 namespace Azure.ResourceManager.Sample.Models
 {
     /// <summary> Defines the request header action for the delivery rule. </summary>
-    public partial class DeliveryRuleRequestHeaderAction : DeliveryRuleAction
+    public partial class DeliveryRuleRequestHeaderAction : DeliveryRuleOperation
     {
         /// <summary> Initializes a new instance of DeliveryRuleRequestHeaderAction. </summary>
         /// <param name="parameters"> Defines the parameters for the action. </param>
@@ -23,13 +23,13 @@ namespace Azure.ResourceManager.Sample.Models
             }
 
             Parameters = parameters;
-            Name = DeliveryRuleActionName.ModifyRequestHeader;
+            Name = DeliveryRuleAction.ModifyRequestHeader;
         }
 
         /// <summary> Initializes a new instance of DeliveryRuleRequestHeaderAction. </summary>
         /// <param name="name"> The name of the action for the delivery rule. </param>
         /// <param name="parameters"> Defines the parameters for the action. </param>
-        internal DeliveryRuleRequestHeaderAction(DeliveryRuleActionName name, HeaderActionParameters parameters) : base(name)
+        internal DeliveryRuleRequestHeaderAction(DeliveryRuleAction name, HeaderActionParameters parameters) : base(name)
         {
             Parameters = parameters;
             Name = name;

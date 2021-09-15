@@ -48,7 +48,7 @@ namespace Azure.ResourceManager.Sample.Models
             Optional<string> name = default;
             int order = default;
             Optional<IList<DeliveryRuleCondition>> conditions = default;
-            IList<DeliveryRuleAction> actions = default;
+            IList<DeliveryRuleOperation> actions = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -78,10 +78,10 @@ namespace Azure.ResourceManager.Sample.Models
                 }
                 if (property.NameEquals("actions"))
                 {
-                    List<DeliveryRuleAction> array = new List<DeliveryRuleAction>();
+                    List<DeliveryRuleOperation> array = new List<DeliveryRuleOperation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(DeliveryRuleAction.DeserializeDeliveryRuleAction(item));
+                        array.Add(DeliveryRuleOperation.DeserializeDeliveryRuleOperation(item));
                     }
                     actions = array;
                     continue;

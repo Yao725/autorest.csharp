@@ -2196,7 +2196,7 @@
           "CheckNameAvailability"
         ],
         "description": "Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.",
-        "operationId": "NameAvailability_Check",
+        "operationId": "CheckNameAvailability",
         "x-ms-examples": {
           "CheckNameAvailability": {
             "$ref": "./examples/CheckNameAvailability.json"
@@ -2238,7 +2238,7 @@
           "CheckNameAvailabilityWithSubscription"
         ],
         "description": "Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.",
-        "operationId": "NameAvailability_CheckWithSubscription",
+        "operationId": "CheckNameAvailabilityWithSubscription",
         "x-ms-examples": {
           "CheckNameAvailabilityWithSubscription": {
             "$ref": "./examples/CheckNameAvailabilityWithSubscription.json"
@@ -2283,7 +2283,7 @@
           "ValidateProbe"
         ],
         "description": "Check if the probe path is a valid path and the file can be accessed. Probe path is the path to a file hosted on the origin server to help accelerate the delivery of dynamic content via the CDN endpoint. This path is relative to the origin path specified in the endpoint configuration.",
-        "operationId": "Probe_Validate",
+        "operationId": "ValidateProbe",
         "x-ms-examples": {
           "ValidateProbe": {
             "$ref": "./examples/ValidateProbe.json"
@@ -3782,7 +3782,7 @@
             "OriginGroupOverride"
           ],
           "x-ms-enum": {
-            "name": "DeliveryRuleActionName",
+            "name": "DeliveryRuleAction",
             "modelAsString": true
           }
         }

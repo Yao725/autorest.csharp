@@ -40,7 +40,7 @@
           "AFDProfiles"
         ],
         "description": "Checks the quota and actual usage of endpoints under the given CDN profile.",
-        "operationId": "AFDProfilesUsage_ListResourceUsage",
+        "operationId": "AFDProfiles_ListResourceUsage",
         "x-ms-examples": {
           "AFDProfiles_ListResourceUsage": {
             "$ref": "./examples/AFDProfiles_ListResourceUsage.json"
@@ -89,7 +89,7 @@
           "AFDProfiles"
         ],
         "description": "Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.",
-        "operationId": "AFDProfilesHostName_CheckHostNameAvailability",
+        "operationId": "AFDProfiles_CheckHostNameAvailability",
         "x-ms-examples": {
           "AFDProfiles_CheckHostNameAvailability": {
             "$ref": "./examples/AFDProfiles_CheckHostNameAvailability.json"
@@ -3318,7 +3318,7 @@
         "tags": [
           "LogAnalytics"
         ],
-        "operationId": "LogAnalyticsMetrics_Get",
+        "operationId": "LogAnalytics_GetLogAnalyticsMetrics",
         "x-ms-examples": {
           "LogAnalytics_GetLogAnalyticsMetrics": {
             "$ref": "./examples/LogAnalytics_GetLogAnalyticsMetrics.json"
@@ -3476,7 +3476,7 @@
         "tags": [
           "LogAnalytics"
         ],
-        "operationId": "LogAnalyticsRankings_Get",
+        "operationId": "LogAnalytics_GetLogAnalyticsRankings",
         "x-ms-examples": {
           "LogAnalytics_GetLogAnalyticsRankings": {
             "$ref": "./examples/LogAnalytics_GetLogAnalyticsRankings.json"
@@ -3596,7 +3596,7 @@
         "tags": [
           "LogAnalytics"
         ],
-        "operationId": "LogAnalyticsLocations_Get",
+        "operationId": "LogAnalytics_GetLogAnalyticsLocations",
         "x-ms-examples": {
           "LogAnalytics_GetLogAnalyticsLocations": {
             "$ref": "./examples/LogAnalytics_GetLogAnalyticsLocations.json"
@@ -3642,7 +3642,7 @@
         "tags": [
           "LogAnalytics"
         ],
-        "operationId": "LogAnalyticsResources_Get",
+        "operationId": "LogAnalytics_GetLogAnalyticsResources",
         "x-ms-examples": {
           "LogAnalytics_GetLogAnalyticsResources": {
             "$ref": "./examples/LogAnalytics_GetLogAnalyticsResources.json"
@@ -3688,7 +3688,7 @@
         "tags": [
           "WafLogAnalytics"
         ],
-        "operationId": "WafLogAnalyticsMetrics_Get",
+        "operationId": "LogAnalytics_GetWafLogAnalyticsMetrics",
         "x-ms-examples": {
           "LogAnalytics_GetWafLogAnalyticsMetrics": {
             "$ref": "./examples/LogAnalytics_GetWafLogAnalyticsMetrics.json"
@@ -3837,7 +3837,7 @@
         "tags": [
           "WafLogAnalytics"
         ],
-        "operationId": "WafLogAnalyticsRankings_Get",
+        "operationId": "LogAnalytics_GetWafLogAnalyticsRankings",
         "x-ms-examples": {
           "LogAnalytics_GetWafLogAnalyticsRankings": {
             "$ref": "./examples/LogAnalytics_GetWafLogAnalyticsRankings.json"

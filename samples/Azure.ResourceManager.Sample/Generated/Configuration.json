@@ -11,47 +11,32 @@
   "head-as-boolean": true,
   "skip-csproj-packagereference": true,
   "OperationGroupToResourceType": {
-    "NameAvailability": "Microsoft.Cdn/checkNameAvailability",
+    "NameCheckWithTenant": "Microsoft.Cdn/checkNameAvailability",
+    "NameCheckWithSubscription": "Microsoft.Cdn/checkNameAvailability",
     "Probe": "Microsoft.Cdn/validateProbe",
     "ResourceUsage": "Microsoft.Cdn/checkResourceUsage",
     "EdgeNodes": "Microsoft.Cdn/edgenodes",
-    "AFDProfilesUsage": "Microsoft.Cdn/profiles/usages",
-    "AFDProfilesHostName": "Microsoft.Cdn/profiles/checkHostNameAvailability",
-    "Validate": "Microsoft.Cdn/validateSecret",
-    "LogAnalyticsMetrics": "Microsoft.Cdn/profiles/getLogAnalyticsMetrics",
-    "LogAnalyticsRankings": "Microsoft.Cdn/profiles/getLogAnalyticsRankings",
-    "LogAnalyticsLocations": "Microsoft.Cdn/profiles/getLogAnalyticsLocations",
-    "LogAnalyticsResources": "Microsoft.Cdn/profiles/getLogAnalyticsResources",
-    "WafLogAnalyticsMetrics": "Microsoft.Cdn/profiles/getWafLogAnalyticsMetrics",
-    "WafLogAnalyticsRankings": "Microsoft.Cdn/profiles/getWafLogAnalyticsRankings",
+    "Secret": "Microsoft.Cdn/validateSecret",
     "ManagedRuleSets": "Microsoft.Cdn/CdnWebApplicationFirewallManagedRuleSets"
   },
   "OperationGroupToResource": {
-    "NameAvailability": "NonResource",
+    "NameCheckWithTenant": "NonResource",
+    "NameCheckWithSubscription": "NonResource",
     "Probe": "NonResource",
     "ResourceUsage": "NonResource",
     "EdgeNodes": "NonResource",
-    "AFDProfilesUsage": "NonResource",
-    "AFDProfilesHostName": "NonResource",
-    "Validate": "NonResource",
-    "LogAnalyticsMetrics": "NonResource",
-    "LogAnalyticsRankings": "NonResource",
-    "LogAnalyticsLocations": "NonResource",
-    "LogAnalyticsResources": "NonResource",
-    "WafLogAnalyticsMetrics": "NonResource",
-    "WafLogAnalyticsRankings": "NonResource",
+    "RuleSets": "RuleSet",
+    "Secret": "NonResource",
+    "ManagedRuleSets": "NonResource",
     "CustomDomains": "CustomDomain"
   },
   "OperationGroupToParent": {
-    "NameAvailability": "tenant",
+    "NameCheckWithTenant": "tenant",
+    "NameCheckWithSubscription": "subscriptions",
     "Probe": "subscriptions",
     "ResourceUsage": "subscriptions",
-    "AFDProfilesUsage": "Microsoft.Cdn/profiles",
-    "AFDProfilesHostName": "Microsoft.Cdn/profiles",
-    "Validate": "subscriptions",
-    "Rules": "Microsoft.Cdn/profiles/ruleSets"
-  },
-  "OperationGroupsToOmit": [
-    "RuleSets"
-  ]
+    "EdgeNodes": "tenant",
+    "Secret": "subscriptions",
+    "ManagedRuleSets": "subscriptions"
+  }
 }

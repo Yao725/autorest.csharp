@@ -10,7 +10,7 @@ using System;
 namespace Azure.ResourceManager.Sample.Models
 {
     /// <summary> Defines the origin group override action for the delivery rule. </summary>
-    public partial class OriginGroupOverrideAction : DeliveryRuleAction
+    public partial class OriginGroupOverrideAction : DeliveryRuleOperation
     {
         /// <summary> Initializes a new instance of OriginGroupOverrideAction. </summary>
         /// <param name="parameters"> Defines the parameters for the action. </param>
@@ -23,13 +23,13 @@ namespace Azure.ResourceManager.Sample.Models
             }
 
             Parameters = parameters;
-            Name = DeliveryRuleActionName.OriginGroupOverride;
+            Name = DeliveryRuleAction.OriginGroupOverride;
         }
 
         /// <summary> Initializes a new instance of OriginGroupOverrideAction. </summary>
         /// <param name="name"> The name of the action for the delivery rule. </param>
         /// <param name="parameters"> Defines the parameters for the action. </param>
-        internal OriginGroupOverrideAction(DeliveryRuleActionName name, OriginGroupOverrideActionParameters parameters) : base(name)
+        internal OriginGroupOverrideAction(DeliveryRuleAction name, OriginGroupOverrideActionParameters parameters) : base(name)
         {
             Parameters = parameters;
             Name = name;

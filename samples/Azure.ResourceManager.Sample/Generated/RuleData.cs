@@ -19,7 +19,7 @@ namespace Azure.ResourceManager.Sample
         public RuleData()
         {
             Conditions = new ChangeTrackingList<DeliveryRuleCondition>();
-            Actions = new ChangeTrackingList<DeliveryRuleAction>();
+            Actions = new ChangeTrackingList<DeliveryRuleOperation>();
         }
 
         /// <summary> Initializes a new instance of RuleData. </summary>
@@ -33,7 +33,7 @@ namespace Azure.ResourceManager.Sample
         /// <param name="matchProcessingBehavior"> If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. </param>
         /// <param name="provisioningState"> Provisioning status. </param>
         /// <param name="deploymentStatus"></param>
-        internal RuleData(ResourceIdentifier id, string name, ResourceType type, SystemData systemData, int? order, IList<DeliveryRuleCondition> conditions, IList<DeliveryRuleAction> actions, MatchProcessingBehavior? matchProcessingBehavior, AfdProvisioningState? provisioningState, DeploymentStatus? deploymentStatus) : base(id, name, type, systemData)
+        internal RuleData(ResourceIdentifier id, string name, ResourceType type, SystemData systemData, int? order, IList<DeliveryRuleCondition> conditions, IList<DeliveryRuleOperation> actions, MatchProcessingBehavior? matchProcessingBehavior, AfdProvisioningState? provisioningState, DeploymentStatus? deploymentStatus) : base(id, name, type, systemData)
         {
             Order = order;
             Conditions = conditions;
@@ -48,7 +48,7 @@ namespace Azure.ResourceManager.Sample
         /// <summary> A list of conditions that must be matched for the actions to be executed. </summary>
         public IList<DeliveryRuleCondition> Conditions { get; }
         /// <summary> A list of actions that are executed when all the conditions of a rule are satisfied. </summary>
-        public IList<DeliveryRuleAction> Actions { get; }
+        public IList<DeliveryRuleOperation> Actions { get; }
         /// <summary> If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. </summary>
         public MatchProcessingBehavior? MatchProcessingBehavior { get; set; }
         /// <summary> Provisioning status. </summary>

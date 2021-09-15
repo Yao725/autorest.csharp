@@ -44,27 +44,27 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. </summary>
         /// <param name="endpointName"> Name of the endpoint under the profile which is unique globally. </param>
-        /// <param name="endpoint"> Endpoint properties. </param>
+        /// <param name="endpointInput"> Endpoint properties. </param>
         /// <param name="waitForCompletion"> Waits for the completion of the long running operations. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="endpointName"/> or <paramref name="endpoint"/> is null. </exception>
-        public virtual EndpointCreateOperation CreateOrUpdate(string endpointName, EndpointData endpoint, bool waitForCompletion = true, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="endpointName"/> or <paramref name="endpointInput"/> is null. </exception>
+        public virtual EndpointCreateOperation CreateOrUpdate(string endpointName, EndpointData endpointInput, bool waitForCompletion = true, CancellationToken cancellationToken = default)
         {
             if (endpointName == null)
             {
                 throw new ArgumentNullException(nameof(endpointName));
             }
-            if (endpoint == null)
+            if (endpointInput == null)
             {
-                throw new ArgumentNullException(nameof(endpoint));
+                throw new ArgumentNullException(nameof(endpointInput));
             }
 
             using var scope = _clientDiagnostics.CreateScope("EndpointContainer.CreateOrUpdate");
             scope.Start();
             try
             {
-                var response = _restClient.Create(Id.ResourceGroupName, Id.Name, endpointName, endpoint, cancellationToken);
-                var operation = new EndpointCreateOperation(Parent, _clientDiagnostics, Pipeline, _restClient.CreateCreateRequest(Id.ResourceGroupName, Id.Name, endpointName, endpoint).Request, response);
+                var response = _restClient.Create(Id.ResourceGroupName, Id.Name, endpointName, endpointInput, cancellationToken);
+                var operation = new EndpointCreateOperation(Parent, _clientDiagnostics, Pipeline, _restClient.CreateCreateRequest(Id.ResourceGroupName, Id.Name, endpointName, endpointInput).Request, response);
                 if (waitForCompletion)
                     operation.WaitForCompletion(cancellationToken);
                 return operation;
@@ -78,27 +78,27 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. </summary>
         /// <param name="endpointName"> Name of the endpoint under the profile which is unique globally. </param>
-        /// <param name="endpoint"> Endpoint properties. </param>
+        /// <param name="endpointInput"> Endpoint properties. </param>
         /// <param name="waitForCompletion"> Waits for the completion of the long running operations. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="endpointName"/> or <paramref name="endpoint"/> is null. </exception>
-        public async virtual Task<EndpointCreateOperation> CreateOrUpdateAsync(string endpointName, EndpointData endpoint, bool waitForCompletion = true, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="endpointName"/> or <paramref name="endpointInput"/> is null. </exception>
+        public async virtual Task<EndpointCreateOperation> CreateOrUpdateAsync(string endpointName, EndpointData endpointInput, bool waitForCompletion = true, CancellationToken cancellationToken = default)
         {
             if (endpointName == null)
             {
                 throw new ArgumentNullException(nameof(endpointName));
             }
-            if (endpoint == null)
+            if (endpointInput == null)
             {
-                throw new ArgumentNullException(nameof(endpoint));
+                throw new ArgumentNullException(nameof(endpointInput));
             }
 
             using var scope = _clientDiagnostics.CreateScope("EndpointContainer.CreateOrUpdate");
             scope.Start();
             try
             {
-                var response = await _restClient.CreateAsync(Id.ResourceGroupName, Id.Name, endpointName, endpoint, cancellationToken).ConfigureAwait(false);
-                var operation = new EndpointCreateOperation(Parent, _clientDiagnostics, Pipeline, _restClient.CreateCreateRequest(Id.ResourceGroupName, Id.Name, endpointName, endpoint).Request, response);
+                var response = await _restClient.CreateAsync(Id.ResourceGroupName, Id.Name, endpointName, endpointInput, cancellationToken).ConfigureAwait(false);
+                var operation = new EndpointCreateOperation(Parent, _clientDiagnostics, Pipeline, _restClient.CreateCreateRequest(Id.ResourceGroupName, Id.Name, endpointName, endpointInput).Request, response);
                 if (waitForCompletion)
                     await operation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
                 return operation;

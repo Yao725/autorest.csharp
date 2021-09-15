@@ -17,7 +17,7 @@ using Azure.ResourceManager.Sample.Models;
 
 namespace Azure.ResourceManager.Sample
 {
-    internal partial class LogAnalyticsResourcesRestOperations
+    internal partial class NameCheckWithSubscriptionRestOperations
     {
         private string subscriptionId;
         private Uri endpoint;
@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Sample
         private HttpPipeline _pipeline;
         private readonly string _userAgent;
 
-        /// <summary> Initializes a new instance of LogAnalyticsResourcesRestOperations. </summary>
+        /// <summary> Initializes a new instance of NameCheckWithSubscriptionRestOperations. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="options"> The client options used to construct the current client. </param>
@@ -34,7 +34,7 @@ namespace Azure.ResourceManager.Sample
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="apiVersion"/> is null. </exception>
-        public LogAnalyticsResourcesRestOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, ClientOptions options, string subscriptionId, Uri endpoint = null, string apiVersion = "2020-09-01")
+        public NameCheckWithSubscriptionRestOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, ClientOptions options, string subscriptionId, Uri endpoint = null, string apiVersion = "2020-09-01")
         {
             this.subscriptionId = subscriptionId ?? throw new ArgumentNullException(nameof(subscriptionId));
             this.endpoint = endpoint ?? new Uri("https://management.azure.com");
@@ -44,52 +44,47 @@ namespace Azure.ResourceManager.Sample
             _userAgent = HttpMessageUtilities.GetUserAgentName(this, options);
         }
 
-        internal HttpMessage CreateGetRequest(string resourceGroupName, string profileName)
+        internal HttpMessage CreateCheckAvailabilityRequest(CheckNameAvailabilityInput checkNameAvailabilityInput)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
-            request.Method = RequestMethod.Get;
+            request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.Reset(endpoint);
             uri.AppendPath("/subscriptions/", false);
             uri.AppendPath(subscriptionId, true);
-            uri.AppendPath("/resourceGroups/", false);
-            uri.AppendPath(resourceGroupName, true);
-            uri.AppendPath("/providers/Microsoft.Cdn/profiles/", false);
-            uri.AppendPath(profileName, true);
-            uri.AppendPath("/getLogAnalyticsResources", false);
+            uri.AppendPath("/providers/Microsoft.Cdn/checkNameAvailability", false);
             uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(checkNameAvailabilityInput);
+            request.Content = content;
             message.SetProperty("UserAgentOverride", _userAgent);
             return message;
         }
 
-        /// <summary> Get all endpoints and custom domains available for AFD log report. </summary>
-        /// <param name="resourceGroupName"> Name of the Resource group within the Azure subscription. </param>
-        /// <param name="profileName"> Name of the CDN profile which is unique within the resource group. </param>
+        /// <summary> Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint. </summary>
+        /// <param name="checkNameAvailabilityInput"> Input to check. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="profileName"/> is null. </exception>
-        public async Task<Response<ResourcesResponse>> GetAsync(string resourceGroupName, string profileName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="checkNameAvailabilityInput"/> is null. </exception>
+        public async Task<Response<CheckNameAvailabilityOutput>> CheckAvailabilityAsync(CheckNameAvailabilityInput checkNameAvailabilityInput, CancellationToken cancellationToken = default)
         {
-            if (resourceGroupName == null)
+            if (checkNameAvailabilityInput == null)
             {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (profileName == null)
-            {
-                throw new ArgumentNullException(nameof(profileName));
+                throw new ArgumentNullException(nameof(checkNameAvailabilityInput));
             }
 
-            using var message = CreateGetRequest(resourceGroupName, profileName);
+            using var message = CreateCheckAvailabilityRequest(checkNameAvailabilityInput);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ResourcesResponse value = default;
+                        CheckNameAvailabilityOutput value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ResourcesResponse.DeserializeResourcesResponse(document.RootElement);
+                        value = CheckNameAvailabilityOutput.DeserializeCheckNameAvailabilityOutput(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -97,31 +92,26 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        /// <summary> Get all endpoints and custom domains available for AFD log report. </summary>
-        /// <param name="resourceGroupName"> Name of the Resource group within the Azure subscription. </param>
-        /// <param name="profileName"> Name of the CDN profile which is unique within the resource group. </param>
+        /// <summary> Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint. </summary>
+        /// <param name="checkNameAvailabilityInput"> Input to check. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="profileName"/> is null. </exception>
-        public Response<ResourcesResponse> Get(string resourceGroupName, string profileName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="checkNameAvailabilityInput"/> is null. </exception>
+        public Response<CheckNameAvailabilityOutput> CheckAvailability(CheckNameAvailabilityInput checkNameAvailabilityInput, CancellationToken cancellationToken = default)
         {
-            if (resourceGroupName == null)
+            if (checkNameAvailabilityInput == null)
             {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (profileName == null)
-            {
-                throw new ArgumentNullException(nameof(profileName));
+                throw new ArgumentNullException(nameof(checkNameAvailabilityInput));
             }
 
-            using var message = CreateGetRequest(resourceGroupName, profileName);
+            using var message = CreateCheckAvailabilityRequest(checkNameAvailabilityInput);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ResourcesResponse value = default;
+                        CheckNameAvailabilityOutput value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ResourcesResponse.DeserializeResourcesResponse(document.RootElement);
+                        value = CheckNameAvailabilityOutput.DeserializeCheckNameAvailabilityOutput(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
