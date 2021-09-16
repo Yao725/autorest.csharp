@@ -19505,6 +19505,8 @@ operationGroups:
                   - default
         extensions:
           x-ms-long-running-operation: true
+          x-ms-long-running-operation-options:
+            final-state-via: original-uri
         language: !Languages 
           default:
             name: Update
