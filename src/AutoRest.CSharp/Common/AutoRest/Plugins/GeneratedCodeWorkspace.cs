@@ -177,21 +177,35 @@ namespace AutoRest.CSharp.AutoRest.Plugins
 
         private static Project CreateGeneratedCodeProject()
         {
+            // Create a new Adhoc workspace
             var workspace = new AdhocWorkspace();
             // TODO: This is not the right way to construct the workspace but it works
             Project generatedCodeProject = workspace.AddProject("GeneratedCode", LanguageNames.CSharp);
 
+            // Get the assembly location, the result will be something like C:\Program Files\dotnet\shared\Microsoft.NETCore.App\3.1.30\System.Private.CoreLib.dll
+            // System.Private.CoreLib is the assembly at the lowest level of the stack in terms of IL
+            // It doesn’t depend on any other managed assembly, and only has native dependencies that it calls into.
+            // This assembly has all of the main core types in the runtime, including most of the types that are on the System namespace.
+            // This assembly represents what mscorlib used to be on .NET framework.
+            // TODO Mark: We can remove this as the TPA already contains this assembly.
             var corlibLocation = typeof(object).Assembly.Location;
+
             var references = new List<MetadataReference>();
 
             references.Add(MetadataReference.CreateFromFile(corlibLocation));
 
+            // Get Trusted Platform Assemblies(TPA) locations
+            // TPA used to be a special set of assemblies that comprised the platform assemblies, when it was originally designed.
+            // As of today, it is simply the set of assemblies known to constitute the application, per its app.deps.json
             var trustedAssemblies = ((string?)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") ?? "").Split(Path.PathSeparator);
+
             foreach (var tpl in trustedAssemblies)
             {
                 references.Add(MetadataReference.CreateFromFile(tpl));
             }
 
+            // Update the project with the references and mark the output kind as dll file
+            // TODO Mark: We can remove the nullableContextOptions as the value is same as the default value
             generatedCodeProject = generatedCodeProject
                 .AddMetadataReferences(references)
                 .WithCompilationOptions(new CSharpCompilationOptions(

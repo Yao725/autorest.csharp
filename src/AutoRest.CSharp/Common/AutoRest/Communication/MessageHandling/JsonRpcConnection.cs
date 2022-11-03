@@ -15,6 +15,8 @@ namespace AutoRest.CSharp.AutoRest.Communication.MessageHandling
     internal delegate string IncomingRequestAction(JsonRpcConnection connection, IncomingRequest request);
 
 #pragma warning disable IDE0069 // Disposable fields should be disposed
+    // Understand JSON-RPC: https://www.wallarm.com/what/what-is-json-rpc
+    // JSON-RPC 2.0 Specification: https://www.jsonrpc.org/specification
     internal sealed class JsonRpcConnection : IDisposable
     {
         private readonly Stream _outputStream;

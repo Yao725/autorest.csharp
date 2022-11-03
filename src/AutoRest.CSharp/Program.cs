@@ -23,6 +23,8 @@ namespace AutoRest.CSharp
 
         public static async Task<int> Main(string[] args)
         {
+            // Parse the command line arguments
+            // If parser is successful, call the Run method, otherwise, return with -1.
             return await Parser.Default.ParseArguments<CommandLineOptions>(args)
                 .MapResult(async (CommandLineOptions opts) =>
                 {
@@ -36,6 +38,7 @@ namespace AutoRest.CSharp
             // Initialize workspace in the background
             GeneratedCodeWorkspace.Initialize();
 
+            // Run the generator in standalone mode
             if (options.ProjectPath is not null || options.Standalone is not null)
             {
                 if (options.ShouldDebug)
@@ -54,6 +57,7 @@ namespace AutoRest.CSharp
                 return 1;
             }
 
+            // Run the generator in plugin mode
             var connection = new JsonRpcConnection(Console.OpenStandardInput(), Console.OpenStandardOutput(),
                 new Dictionary<string, IncomingRequestAction>
                 {
